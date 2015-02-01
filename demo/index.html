@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en" ng-app="upyunDemo">
+<head>
+  <meta charset="UTF-8">
+  <title>Demo</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width">
+  <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="../bower_components/angular-loading-bar/build/loading-bar.css">
+  <link rel="stylesheet" href="demo.css">
+
+</head>
+<body>
+  <div class="manual-demo">
+    <div class="container text-center" ng-controller="manualCtrl">
+      <h2 class="text-muted">Manually Select and Upload</h2>
+      <div class="row">
+        <div class="col-md-6">
+          <button class="btn btn-lg btn-block btn-default btn-input">
+            <input type="file" file-select="fileSelected()" ng-model="theFile">
+            <span>Select</span>
+          </button>
+
+          <button class="btn btn-lg btn-block btn-success" ng-click="uploadClicked()">Upload</button>
+        </div>
+        <div class="col-md-6">
+          <div class="preview">
+            <img class="img-responsive" ng-src="{{image.url}}" alt="" ng-show="image.ready">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="drop-demo">
+    <div class="container text-center" ng-controller="dropzoneCtrl">
+      <h2 class="text-muted">Dropzone Upload</h2>
+    </div>
+  </div>
+  <script src="../bower_components/angular/angular.min.js"></script>
+  <script src="../bower_components/angular-loading-bar/build/loading-bar.js"></script>
+  <script src="../bower_components/spark-md5/spark-md5.js"></script>
+  <script src="../bower_components/js-base64/base64.js"></script>
+  <script src="../src/upyun.js"></script>
+  <script src="demo.js"></script>
+</body>
+</html>

@@ -1,27 +1,32 @@
 {
-  "name": "upyun-multipart-upload",
-  "version": "0.3.0",
+  "name": "angular-upyun",
+  "version": "0.1.0",
   "authors": [
+    "to0",
     "Leigh Zhu <i@zhuli.me>"
   ],
-  "description": "a js sdk for upyun multipart upload",
-  "main": "lib/upyun-mu.js",
+  "description": "upyun form upload",
+  "main": "dist/upyun.min.js",
   "keywords": [
     "upyun",
     "upload",
     "cdn"
   ],
   "license": "MIT",
-  "homepage": "https://github.com/upyun/js-multipart-upload",
+  "homepage": "https://github.com/roomhunter/angular-upyun.git",
   "ignore": [
     "**/.*",
     "node_modules",
     "bower_components",
     "test",
-    "tests"
+    "gulp",
+    "demo"
   ],
   "dependencies": {
+    "bootstrap": "~3.3.1",
     "spark-md5": "~0.0.5",
-    "async": "~0.9.0"
+    "angular": "~1.3.11",
+    "angular-loading-bar": "0.6.0",
+    "js-base64": "~2.1.7"
   }
 }
