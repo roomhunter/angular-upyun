@@ -2,6 +2,16 @@
 
 ## Usage
 
+#### Directive
+
+`file-select` and `ng-model`
+
+```
+
+<code><input type="file" file-select="fileSelected()" ng-model="theFile"></code>
+
+```
+
 #### Config
 
 ```js
