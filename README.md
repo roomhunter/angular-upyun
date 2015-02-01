@@ -17,9 +17,9 @@
 ```js
 
 $upyunUploader.config({
-  apiSecret: '8mho8WVV2eTt0PhmI9kCe8bfUi4=',
+  apiSecret: '1+JY2ZqD5UVfw6hQ8EesYQO50Wo=',
   dir: '/test',
-  bucket: 'roomhunter-images'
+  bucket: 'demonstration'
 });
 
 ```
