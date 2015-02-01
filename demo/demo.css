@@ -1,0 +1,34 @@
+.manual-demo {
+  padding: 40px 0;
+  background-color: #f8f8f8;
+  min-height: 400px;
+}
+
+.manual-demo .row {
+  padding-top: 40px;
+  padding-bottom: 40px;
+}
+.manual-demo .btn-block {
+  margin: 40px auto;
+  width: 300px;
+}
+.drop-demo {
+  padding: 40px 0;
+}
+
+.btn-input {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-input input {
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  left: -100%;
+  bottom: 0;
+  right: 0;
+  height: 100%;
+  width: 200%;
+  cursor: pointer;
+}
