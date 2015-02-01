@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 ### Angular Directive for Upyun
 
 ## Usage
