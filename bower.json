@@ -2,8 +2,7 @@
   "name": "angular-upyun",
   "version": "0.1.0",
   "authors": [
-    "to0",
-    "Leigh Zhu <i@zhuli.me>"
+    "to0"
   ],
   "description": "upyun form upload",
   "main": "dist/upyun.min.js",
