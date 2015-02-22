@@ -3,28 +3,30 @@ angular.module('upyunDemo', ['upyun', 'angular-loading-bar'])
     cfpLoadingBarProvider.includeSpinner = false;
     cfpLoadingBarProvider.latencyThreshold = 300;
   }])
-  .controller('manualCtrl', ['upyunUploader', '$scope', function ($upyunUploader, $scope){
+  .controller('manualCtrl', ['upyunUploader', '$scope', function (upyunUploader, $scope){
     'use strict';
 
-    $upyunUploader.config({
+    upyunUploader.config({
       apiSecret: '1+JY2ZqD5UVfw6hQ8EesYQO50Wo=',
       dir: '/test',
       bucket: 'demonstration'
     });
-    $upyunUploader.onSuccess(function(url) {
+    upyunUploader.onSuccess(function(url) {
       $scope.image = {};
       $scope.image.url = url;
       $scope.image.ready = true;
       $scope.theFile = null;
+      console.log('su');
     });
 
     $scope.uploadClicked = function () {
-      $upyunUploader.startUpload();
+      upyunUploader.startUpload();
     };
 
     $scope.fileSelected = function () {
-      $upyunUploader.addFiles($scope.theFile);
-    }
+      upyunUploader.addFiles($scope.files);
+      console.log($scope.files);
+    };
 
   }])
   .controller('dropzoneCtrl', ['upyunUploader', '$scope', function (upyunUploader, $scope){

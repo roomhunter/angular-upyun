@@ -1,9 +1,11 @@
 angular.module('upyun', [])
   .directive('fileSelect', function () {
+
     function link($scope, element, attrs, ngModel) {
       element.bind('change', function (event) {
         ngModel.$setViewValue(event.target.files);
         $scope.$apply();
+        $scope.$eval(attrs.fileSelect);
       });
 
       $scope.$watch(function () {
@@ -11,15 +13,13 @@ angular.module('upyun', [])
       }, function (value) {
         if (!value) {
           element.val("");
+
         }
       });
     }
     return {
       require: 'ngModel',
       restrict: 'A',
-      scope: {
-        fileSelect: '='
-      },
       link: link
     };
 
