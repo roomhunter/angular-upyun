@@ -1,4 +1,5 @@
-### Angular Directive for Upyun
+Angular Directive for Upyun
+===========================
 
 ## Usage
 
@@ -8,7 +9,7 @@
 
 ```
 
-<input type="file" file-select="fileSelected()" ng-model="theFile">
+<input type="file" file-select="fileSelected()" ng-model="files">
 
 ```
 
@@ -24,11 +25,11 @@ $upyunUploader.config({
 
 ```
 
-#### Add Files
+#### Set Files
 
 ```js
 
-$upyunUploader.addFiles(files);
+$upyunUploader.setFiles(files);
 
 
 ```
@@ -53,3 +54,9 @@ $upyunUploader.onSuccess(function(url) {
 });
 
 ```
+
+## Tasks
+
+- [x] single document upload
+- [x] multiple documents upload
+- [ ] drop and upload

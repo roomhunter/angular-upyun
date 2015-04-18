@@ -40,7 +40,7 @@ angular.module('upyun', [])
     };
 
     self.options = {
-      concurrency: 2,
+      concurrency: 3,
       success: function(){},
       failed: function(){}
     };
@@ -73,18 +73,18 @@ angular.module('upyun', [])
       self.options.faild = callback || function() {};
     }
 
-    function addFiles(files) {
+    function setFiles(files) {
       if (!files)
         return;
+      // for splice working
       for (var i = 0; i < files.length; i++) {
         self.files.push(files[i]);
       }
     }
 
-
     function startUpload() {
       for (var i = 0; i < self.files.length; i++) {
-        if (self.activeUploads == self.options.concurrency) {
+        if (self.activeUploads >= self.options.concurrency) {
           break;
         }
         if (self.files[i].active)
@@ -95,13 +95,12 @@ angular.module('upyun', [])
 
 
     return {
-      addFiles: addFiles,
+      setFiles: setFiles,
       config: config,
       startUpload: startUpload,
       onSuccess: onSuccess,
       onError: onError
     };
-
 
     function removeFile(file){
       self.files.splice(self.files.indexOf(file),1);
@@ -111,12 +110,8 @@ angular.module('upyun', [])
       self.files.splice(0,self.files.length);
     }
 
-
-    function getFilesArray() {
-      return self.files;
-    }
-
     function uploadOneFile(file) {
+      // thread safe, js is single thread
       self.activeUploads += 1;
       file.active = true;
       var formData;
@@ -127,8 +122,10 @@ angular.module('upyun', [])
       var policy = Base64.encode(JSON.stringify(self.upyunConfigs.params));
       var signature = SparkMD5.hash(policy + '&' + self.upyunConfigs['form_api_secret']);
 
-      var apiendpoint = 'http://v0.api.upyun.com/' + self.upyunConfigs.params['bucket'];
-      var imageHost = 'http://' + self.upyunConfigs.params['bucket'] + '.b0.upaiyun.com';
+      var apiendpoint = 'https://v0.api.upyun.com/' + self.upyunConfigs.params['bucket'];
+      var imageHost = self.upyunConfigs.params['bucket'] + '.b0.upaiyun.com';
+      var imageHttpHost = 'http://' + imageHost;
+      var imageHttpsHost = 'https://' + imageHost;
 
       formData.append('file', file);
       formData.append('policy', policy);
@@ -143,7 +140,7 @@ angular.module('upyun', [])
         .success(function (res) {
           self.activeUploads -= 1;
           removeFile(file);
-          self.options.success(imageHost + res.url);
+          self.options.success(imageHttpsHost + res.url, imageHttpHost + res.url);
         })
         .error(function() {
           self.options.failed();

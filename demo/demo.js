@@ -7,16 +7,16 @@ angular.module('upyunDemo', ['upyun', 'angular-loading-bar'])
     'use strict';
 
     upyunUploader.config({
-      apiSecret: '1+JY2ZqD5UVfw6hQ8EesYQO50Wo=',
+      apiSecret: '9TiB5OGqDNaPGQDn4AS3528M+u8=',
       dir: '/test',
-      bucket: 'demonstration'
+      bucket: 'roomhunter-test'
     });
-    upyunUploader.onSuccess(function(url) {
+    upyunUploader.onSuccess(function(httpsUrl, httpUrl) {
       $scope.image = {};
-      $scope.image.url = url;
+      $scope.image.url = httpUrl;
       $scope.image.ready = true;
       $scope.theFile = null;
-      console.log('su');
+      console.log(httpUrl);
     });
 
     $scope.uploadClicked = function () {
@@ -24,7 +24,7 @@ angular.module('upyunDemo', ['upyun', 'angular-loading-bar'])
     };
 
     $scope.fileSelected = function () {
-      upyunUploader.addFiles($scope.files);
+      upyunUploader.setFiles($scope.files);
       console.log($scope.files);
     };
 
