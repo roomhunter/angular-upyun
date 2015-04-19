@@ -19,13 +19,14 @@ angular.module('upyunDemo', ['upyun', 'angular-loading-bar'])
       console.log(httpUrl);
     });
 
-    $scope.uploadClicked = function () {
-      upyunUploader.startUpload();
-    };
+    //$scope.uploadClicked = function () {
+    //  upyunUploader.startUpload();
+    //};
 
     $scope.fileSelected = function () {
       upyunUploader.setFiles($scope.files);
       console.log($scope.files);
+      upyunUploader.startUpload();
     };
 
   }])

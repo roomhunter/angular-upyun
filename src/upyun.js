@@ -2,12 +2,28 @@ angular.module('upyun', [])
   .directive('upyunUpload', function () {
 
     function linkFn($scope, element, attrs, ngModel) {
-      element.bind('change', function (event) {
-        // set the ngModel value as the input files
-        ngModel.$setViewValue(event.target.files);
+
+      function processDragOverOrEnter(event) {
+        if (event != null) {
+          event.preventDefault();
+        }
+        event.dataTransfer.effectAllowed = 'copy';
+        return false;
+      }
+
+      function dropFile(event) {
+        if (event != null) {
+          event.preventDefault();
+        }
+        //console.log(event.dataTransfer.files);
+        changeFiles(event.dataTransfer.files);
+      }
+
+      function changeFiles(files) {
+        ngModel.$setViewValue(files);
         $scope.$apply();
         $scope.$eval(attrs.fileSelect);
-      });
+      }
 
       $scope.$watch(function () {
         return ngModel.$viewValue;
@@ -21,6 +37,13 @@ angular.module('upyun', [])
       but if you registered a listener on a service, or registered a listener on a DOM node that isn't being deleted,
       you'll have to clean it up yourself or you risk introducing a memory leak.
       */
+      element.bind('dragover', processDragOverOrEnter);
+      element.bind('dragenter', processDragOverOrEnter);
+      element.bind('drop', dropFile);
+      element.bind('change', function (event) {
+        // set the ngModel value as the input files
+        changeFiles(event.target.files);
+      });
     }
     return {
       require: 'ngModel',
@@ -39,7 +62,7 @@ angular.module('upyun', [])
       params: {
         expiration: (new Date().getTime()) + 60,
         'save-key': '',
-        'allow-file-type': 'jpg,jpeg,gif,png',
+        'allow-file-type': 'jpg,jpeg,gif,png,pdf',
         'bucket': ''
       }
     };

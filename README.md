@@ -59,4 +59,6 @@ $upyunUploader.onSuccess(function(url) {
 
 - [x] single document upload
 - [x] multiple documents upload
-- [ ] drop and upload
+- [x] drop and upload
+- [ ] file type validation
+- [ ] file size restriction
