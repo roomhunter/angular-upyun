@@ -1,6 +1,14 @@
 Angular Directive for Upyun
 ===========================
 
+## Features
+
+- [x] single document upload
+- [x] multiple documents upload
+- [x] drop and upload
+- [ ] file type validation
+- [ ] file size restriction
+
 ## Usage
 
 #### Directive
@@ -54,11 +62,3 @@ $upyunUploader.onSuccess(function(url) {
 });
 
 ```
-
-## Tasks
-
-- [x] single document upload
-- [x] multiple documents upload
-- [x] drop and upload
-- [ ] file type validation
-- [ ] file size restriction
