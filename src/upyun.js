@@ -1,8 +1,9 @@
 angular.module('upyun', [])
-  .directive('fileSelect', function () {
+  .directive('upyunUpload', function () {
 
-    function link($scope, element, attrs, ngModel) {
+    function linkFn($scope, element, attrs, ngModel) {
       element.bind('change', function (event) {
+        // set the ngModel value as the input files
         ngModel.$setViewValue(event.target.files);
         $scope.$apply();
         $scope.$eval(attrs.fileSelect);
@@ -16,11 +17,15 @@ angular.module('upyun', [])
 
         }
       });
+      /* Listeners registered to scopes and elements are automatically cleaned up when they are destroyed,
+      but if you registered a listener on a service, or registered a listener on a DOM node that isn't being deleted,
+      you'll have to clean it up yourself or you risk introducing a memory leak.
+      */
     }
     return {
       require: 'ngModel',
       restrict: 'A',
-      link: link
+      link: linkFn
     };
 
   })
@@ -93,15 +98,6 @@ angular.module('upyun', [])
       }
     }
 
-
-    return {
-      setFiles: setFiles,
-      config: config,
-      startUpload: startUpload,
-      onSuccess: onSuccess,
-      onError: onError
-    };
-
     function removeFile(file){
       self.files.splice(self.files.indexOf(file),1);
     }
@@ -147,4 +143,11 @@ angular.module('upyun', [])
         });
 
     }
+    return {
+      setFiles: setFiles,
+      config: config,
+      startUpload: startUpload,
+      onSuccess: onSuccess,
+      onError: onError
+    };
   }]);
