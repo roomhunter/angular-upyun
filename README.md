@@ -33,32 +33,15 @@ $upyunUploader.config({
 
 ```
 
-#### Set Files
-
-```js
-
-$upyunUploader.setFiles(files);
-
-
-```
-
 #### Upload
 
+It returns an array of URLs.
+
 ```js
 
-$upyunUploader.startUpload();
+$upyunUploader.uploadFiles(files, success, failed);
 
 
 ```
 
-#### Callback
 
-```js
-
-$upyunUploader.onSuccess(function(url) {
-  $scope.image = {};
-  $scope.image.url = url;
-  $scope.image.ready = true;
-});
-
-```
