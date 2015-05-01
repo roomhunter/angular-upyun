@@ -56,7 +56,9 @@ angular.module('upyun', [])
 
     'user strict';
     var self = this;
-    self.files = [];
+    self.queue = [];
+    self.results = [];
+    self.isBlocked = false;
     self.upyunConfigs = {
       'form_api_secret': '',
       params: {
@@ -68,9 +70,7 @@ angular.module('upyun', [])
     };
 
     self.options = {
-      concurrency: 3,
-      success: function(){},
-      failed: function(){}
+      concurrency: 3
     };
 
     self.activeUploads = 0;
@@ -93,40 +93,29 @@ angular.module('upyun', [])
       self.upyunConfigs['form_api_secret'] = configs.apiSecret;
     }
 
-    function onSuccess(callback) {
-      self.options.success = callback || function() {};
-    }
-
-    function onError(callback) {
-      self.options.faild = callback || function() {};
-    }
-
-    function setFiles(files) {
+    function setQueue(files) {
       if (!files)
         return;
       // for splice working
+      self.queue = [];
       for (var i = 0; i < files.length; i++) {
-        self.files.push(files[i]);
+        self.queue.push(files[i]);
       }
     }
 
-    function startUpload() {
-      for (var i = 0; i < self.files.length; i++) {
+    function uploadSome() {
+      for (var i = 0; i < self.queue.length; i++) {
         if (self.activeUploads >= self.options.concurrency) {
           break;
         }
-        if (self.files[i].active)
+        if (self.queue[i].active)
           continue;
-        uploadOneFile(self.files[i]);
+        uploadOneFile(self.queue[i]);
       }
     }
 
-    function removeFile(file){
-      self.files.splice(self.files.indexOf(file),1);
-    }
-
-    function removeAll(){
-      self.files.splice(0,self.files.length);
+    function dequeFile(file){
+      self.queue.splice(self.queue.indexOf(file),1);
     }
 
     function uploadOneFile(file) {
@@ -158,19 +147,45 @@ angular.module('upyun', [])
       })
         .success(function (res) {
           self.activeUploads -= 1;
-          removeFile(file);
-          self.options.success(imageHttpsHost + res.url, imageHttpHost + res.url);
+          self.tasksNum -= 1;
+          dequeFile(file);
+          // load remained files if any
+          uploadSome();
+          self.results.push(imageHttpsHost + res.url);
+
+          // finish all files
+          if (self.tasksNum == 0) {
+            self.isBlocked = false;
+            self.success(self.results);
+          }
         })
         .error(function() {
-          self.options.failed();
+          self.queue = [];
+          self.tasksNum = 0;
+          self.isBlocked = false;
+          self.failed(new Error('upload failed'), self.results);
         });
 
     }
+    function uploadFiles(files, success, failed) {
+      if (self.isBlocked) {
+        failed(new Error('is blocked'));
+        return;
+      }
+      if (files.length == 0) {
+        failed(new Error('no file'));
+        return;
+      }
+      self.tasksNum = files.length;
+      self.results = [];
+      self.isBlocked = true;
+      setQueue(files);
+      self.success = success || function(){};
+      self.failed = failed || function(){};
+      uploadSome();
+    }
     return {
-      setFiles: setFiles,
       config: config,
-      startUpload: startUpload,
-      onSuccess: onSuccess,
-      onError: onError
+      uploadFiles: uploadFiles
     };
   }]);
