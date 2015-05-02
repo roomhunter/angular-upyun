@@ -35,7 +35,9 @@ $upyunUploader.config({
 
 #### Upload
 
-It returns an array of URLs.
+`files` is an array of files.
+`success` is a callback be passed the array of URLs.
+`failed` is a callback be passed Error.
 
 ```js
 
