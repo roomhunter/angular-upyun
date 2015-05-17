@@ -138,6 +138,7 @@ angular.module('upyun', [])
       formData.append('file', file);
       formData.append('policy', policy);
       formData.append('signature', signature);
+      formData.append('x-gmkerl-rotate', 'auto');
 
       $http.post(apiendpoint, formData, {
         transformRequest: angular.identity,
