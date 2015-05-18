@@ -34,9 +34,9 @@ angular.module('upyun', [])
         }
       });
       /* Listeners registered to scopes and elements are automatically cleaned up when they are destroyed,
-      but if you registered a listener on a service, or registered a listener on a DOM node that isn't being deleted,
-      you'll have to clean it up yourself or you risk introducing a memory leak.
-      */
+       but if you registered a listener on a service, or registered a listener on a DOM node that isn't being deleted,
+       you'll have to clean it up yourself or you risk introducing a memory leak.
+       */
       element.bind('dragover', processDragOverOrEnter);
       element.bind('dragenter', processDragOverOrEnter);
       element.bind('drop', dropFile);
@@ -56,6 +56,7 @@ angular.module('upyun', [])
 
     'user strict';
     var self = this;
+    var mimeTypes = ['application/pdf', 'image/jpg', 'image/jpeg', 'image/gif', 'image/png'];
     self.queue = [];
     self.results = [];
     self.isBlocked = false;
@@ -99,6 +100,11 @@ angular.module('upyun', [])
       // for splice working
       self.queue = [];
       for (var i = 0; i < files.length; i++) {
+        if (mimeTypes.indexOf(files[i].type) < 0) {
+          self.isBlocked = false;
+          self.failed(new TypeError('mime types error'), undefined);
+          return;
+        }
         self.queue.push(files[i]);
       }
     }
@@ -180,9 +186,9 @@ angular.module('upyun', [])
       self.tasksNum = files.length;
       self.results = [];
       self.isBlocked = true;
-      setQueue(files);
       self.success = success || function(){};
       self.failed = failed || function(){};
+      setQueue(files);
       uploadSome();
     }
     return {
