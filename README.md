@@ -6,7 +6,7 @@ Angular Directive for Upyun
 - [x] single document upload
 - [x] multiple documents upload
 - [x] drop and upload
-- [ ] file type validation
+- [x] file type validation
 - [ ] file size restriction
 
 ## Usage
